@@ -14,23 +14,27 @@ $( document ).ready(function() {
     });
 
     $.getJSON(url, function(response) {
-        total = response.data.children.length;
-        random_index = Math.floor(Math.random() * total); // picking a random frm array is dup code, refactor
-        data = randomFrom(response.data.children)//[random_index].data 
-        result = ""
-        if(data.selftext !== "") { // extrapolate
-            var temp = document.createElement("div");
-            temp.innerHTML = data.selftext_html;
-            result = temp.childNodes[0].nodeValue;
-            temp.removeChild(temp.firstChild);
-        }
+        data = randomFrom(response.data.children)
+        title = data.title
+        self = getSelfie(data)
 
-        $("#reason").html("<strong>" + data.title + "</strong>...<br/>" + result) // if too long, ain't nobody got time for that, pick another
+        $("#reason").html("<strong>" + title + "</strong>...<br/>" + self) // if too long, ain't nobody got time for that, pick another
         $("body").addClass("clickable")
     });
 
     randomFrom = function(arr) {
         return arr[Math.floor(Math.random() * arr.length)]
+    }
+
+    getSelfie = function(data) {
+        result = ""
+        if(data.selftext !== "") {
+            var temp = document.createElement("div");
+            temp.innerHTML = data.selftext_html;
+            result = temp.childNodes[0].nodeValue;
+            temp.removeChild(temp.firstChild);
+        }
+        return result;
     }
 
     // Y U No unit tests?
