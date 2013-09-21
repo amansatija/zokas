@@ -24,16 +24,13 @@ $( document ).ready(function() {
         return result;
     }
 
-    pickShortPost = function(response) {
+    pickShortPost = function(response, counter) {
         post = randomFrom(response.data.children).data
-        for (var i = 0; i < response.data.children.length && post.selftext.length > 1000; i++) { // Too big
-            post = randomFrom(response.data.children).data
-        }
-        return post
+        return (counter === 0 || post.selftext.length < 1000)? post : pickShortPost(response, --counter)
     }
 
     getHTMLFrom = function(response) {
-        post = pickShortPost(response)
+        post = pickShortPost(response, response.data.children.length)
         self = getSelfie(post)
         return "<strong>" + post.title + "</strong>...<br/>" + self
     }
