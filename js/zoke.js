@@ -16,7 +16,7 @@ $( document ).ready(function() {
     $.getJSON(url, function(response) {
         total = response.data.children.length;
         random_index = Math.floor(Math.random() * total); // picking a random frm array is dup code, refactor
-        data = response.data.children[random_index].data 
+        data = randomFrom(response.data.children)//[random_index].data 
         result = ""
         if(data.selftext !== "") { // extrapolate
             var temp = document.createElement("div");
