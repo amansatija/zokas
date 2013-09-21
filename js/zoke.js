@@ -6,7 +6,7 @@ $( document ).ready(function() {
                     'http://www.reddit.com/r/Jokes/.json?','http://www.reddit.com/r/Jokes/top.json?t=all&',
                     'http://www.reddit.com/r/Jokes/top.json?t=month&','http://www.reddit.com/r/Jokes/top.json?t=week&']
     append = 'limit=100&jsonp=?'
-    url = subreddit_url[Math.floor(Math.random() * subreddit_url.length)] + append
+    url = randomFrom(subreddit_url) + append
     $.ajaxSetup({ 
         cache: true,
         contentType: "application/json; charset=utf-8",
@@ -28,4 +28,10 @@ $( document ).ready(function() {
         $("#reason").html("<strong>" + data.title + "</strong>...<br/>" + result) // if too long, ain't nobody got time for that, pick another
         $("body").addClass("clickable")
     });
+
+    randomFrom = function(arr) {
+        return arr[Math.floor(Math.random() * arr.length)]
+    }
+
+    // Y U No unit tests?
 });
