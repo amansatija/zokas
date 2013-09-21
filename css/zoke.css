@@ -6,7 +6,7 @@ html, body {
     text-decoration: none;
 }
 body.clickable {
-	cursor: pointer;
+    cursor: pointer;
 }
 .wrapper {
     height: auto !important;
@@ -17,7 +17,7 @@ body.clickable {
     height: 8em;
 }
 .center {
-  	padding-left: 4rem;
+      padding-left: 4rem;
     padding-right: 4rem;
     padding-top: 12rem;
     text-align: center;
