@@ -6,6 +6,38 @@ $( document ).ready(function() {
                     'http://www.reddit.com/r/Jokes/.json?','http://www.reddit.com/r/Jokes/top.json?t=all&',
                     'http://www.reddit.com/r/Jokes/top.json?t=month&','http://www.reddit.com/r/Jokes/top.json?t=week&']
     append = 'limit=100&jsonp=?'
+
+    randomFrom = function(arr) {
+        returnval = arr[Math.floor(Math.random() * arr.length)]
+        console.log(returnval)
+        return returnval
+    }
+
+    getSelfie = function(post) {
+        result = ""
+        if(post.selftext !== "") {
+            var temp = document.createElement("div");
+            temp.innerHTML = post.selftext_html; // trusting Reddit
+            result = temp.childNodes[0].nodeValue;
+            temp.removeChild(temp.firstChild);
+        }
+        return result;
+    }
+
+    pickShortPost = function(response) {
+        post = randomFrom(response.data.children).data
+        for (var i = 0; i < response.data.children.length && post.selftext.length > 1000; i++) { // Too big
+            post = randomFrom(response.data.children).data
+        }
+        return post
+    }
+
+    getHTMLFrom = function(response) {
+        post = pickShortPost(response)
+        self = getSelfie(post)
+        return "<strong>" + post.title + "</strong>...<br/>" + self
+    }
+
     url = randomFrom(subreddit_url) + append
     $.ajaxSetup({ 
         cache: true,
@@ -14,28 +46,10 @@ $( document ).ready(function() {
     });
 
     $.getJSON(url, function(response) {
-        data = randomFrom(response.data.children)
-        title = data.title
-        self = getSelfie(data)
-
-        $("#reason").html("<strong>" + title + "</strong>...<br/>" + self) // if too long, ain't nobody got time for that, pick another
+        $("#reason").html(getHTMLFrom(response))
         $("body").addClass("clickable")
     });
 
-    randomFrom = function(arr) {
-        return arr[Math.floor(Math.random() * arr.length)]
-    }
-
-    getSelfie = function(data) {
-        result = ""
-        if(data.selftext !== "") {
-            var temp = document.createElement("div");
-            temp.innerHTML = data.selftext_html;
-            result = temp.childNodes[0].nodeValue;
-            temp.removeChild(temp.firstChild);
-        }
-        return result;
-    }
-
     // Y U No unit tests?
+    // Y U use functions so badly
 });
