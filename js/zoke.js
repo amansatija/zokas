@@ -15,17 +15,17 @@ $( document ).ready(function() {
 
 	$.getJSON(url, function(response) {
 		total = response.data.children.length;
-		random_index = Math.floor(Math.random() * total);
-	    data = response.data.children[random_index].data
+		random_index = Math.floor(Math.random() * total); // picking a random frm array is dup code, refactor
+	    data = response.data.children[random_index].data 
 		result = ""
-	    if(data.selftext !== "") {
+	    if(data.selftext !== "") { // extrapolate
 		    var temp = document.createElement("div");
 	    	temp.innerHTML = data.selftext_html;
 	    	result = temp.childNodes[0].nodeValue;
 	    	temp.removeChild(temp.firstChild);
 	    }
 
-	    $("#reason").html("<strong>" + data.title + "</strong>...<br/>" + result)
+	    $("#reason").html("<strong>" + data.title + "</strong>...<br/>" + result) // if too long, ain't nobody got time for that, pick another
 	    $("body").addClass("clickable")
 	});
 });
